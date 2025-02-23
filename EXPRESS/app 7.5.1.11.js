@@ -4,14 +4,7 @@ const port = 3001
 // Get the client
 const mysql = require('mysql2/promise')
 const cors = require('cors')
-const session = require('express-session')
-app.use(cors({
-    origin : 'http://localhost:5174',
-    credentials: true
-}))
-app.use(session({
-        secret: 'qwertyuiop',
-    }))
+app.use(cors())
 
 // Create the connection to database
 const connection = mysql.createPool({
@@ -32,7 +25,6 @@ app.get('/login',async (req, res) => {
             [datos.usuario,datos.clave]
             );
         if (results.length > 0){
-            req.session.usuario = datos.usuario;
             res.status(200).send('Inicio de sesion Validado')
         } else {
             res.status(401).send('Usuario o clave incorrecta')
@@ -46,11 +38,7 @@ app.get('/login',async (req, res) => {
     }
 )
 app.get('/validar', (req, res) => {
-    if(req.session.usuario){
-        res.status(200).send('Usuario Validado')
-    }else{
-        res.status(401).send('Usuario no autorizado')
-    }
+    res.send('Usuario Validado')
 })
 
 app.listen(port, () => {

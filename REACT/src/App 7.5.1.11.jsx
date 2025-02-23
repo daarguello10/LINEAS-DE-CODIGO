@@ -18,7 +18,7 @@ function App() {
 
   
   async function ingresar() {
-    const peticion = await fetch('http://localhost:3001/login?usuario='+usuario+'&clave='+clave,{credentials:'include'})
+    const peticion = await fetch('http://localhost:3001/login?usuario='+usuario+'&clave='+clave)
     if (peticion.ok){
       alert(`Ingreso correcto`)
       setLogueado(true)
@@ -33,18 +33,6 @@ function App() {
     //  alert(`Usuario o clave incorrecta`)
     //}
   }
-
-  async function validar(){
-    const peticion = await fetch('http://localhost:3001/validar',{credentials:'include'})
-    if (peticion.ok){
-      setLogueado(true)
-    } 
-  }
-
-  useEffect(()=>{
-    validar()
-  }
-  ,[])
 
   if (logueado){
     return <Conversor />
