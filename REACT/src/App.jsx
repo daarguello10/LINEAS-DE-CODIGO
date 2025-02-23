@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -15,16 +15,24 @@ function App() {
   function cambiarClave(evento){
     setClave(evento.target.value)
   }
+
   
-  function ingresar(){
-    
-    if (usuario == 'admin' && clave == 'admin'){
+  async function ingresar() {
+    const peticion = await fetch('http://localhost:3001/login?usuario=darguello10&clave=123')
+    if (peticion.status == 200){
       alert(`Ingreso correcto`)
-      setLogueado(true) 
+      setLogueado(true)
     } else {
       alert(`Usuario o clave incorrecta`)
     }
-  }  
+
+    //if (usuario == 'admin' && clave == 'admin'){
+    //  alert(`Ingreso correcto`)
+    // setLogueado(true) 
+    //  } else {
+    //  alert(`Usuario o clave incorrecta`)
+    //}
+  }
 
   if (logueado){
     return <Conversor />
@@ -34,7 +42,7 @@ function App() {
     <>
     <h1>Inicio de sesión</h1>
       <input placeholder='Usuario' type="text" name="usuario" id="usuario" value={usuario} onChange={cambiarUsuario}/>  
-      <input placeholder='Contraseña' type="password" name="clave" id="clave " value={clave} onChange={cambiarClave}/>
+      <input placeholder='Contraseña' type="password" name="clave" id="clave" value={clave} onChange={cambiarClave}/>
       <button onClick={ingresar}>Ingresar</button>    
     </>
   )
